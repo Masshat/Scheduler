@@ -9,11 +9,13 @@ BIN = bin
 
 all: tproc
 
-# Ex 1:
 tproc: $(BIN)/tproc
-$(BIN)/tproc: $(OBJ)/tproc.o
+$(BIN)/tproc: $(OBJ)/tproc.o $(OBJ)/jmp.o
 		$(CC) -o $@ $< $(LDFLAGS)
 $(OBJ)/tproc.o: $(SRC)/tproc.c $(INC)/tproc.h
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+$(OBJ)/jmp.o:	$(SRC)/jmp.c $(INC)/jmp.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
