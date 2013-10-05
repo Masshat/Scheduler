@@ -1,7 +1,7 @@
 #ifndef _H_TPROC
 #define _H_TPROC
 
-#include "setjmp.h"
+#include <setjmp.h>
 
 /* Nombre maximum de processus que notre table peut accepter */
 #define NPROC 42
@@ -11,9 +11,10 @@
 #define SRUNNING 1
 
 /* Cette macro permet de calculer le début de la pile de la fonction main */
-#define init_schred() ( { char var; top_stack = &var; } )
+#define init_sched() ( { char var; top_stack = &var; } )
 
-int elu;
+extern int elu;
+extern char* top_stack;
 
 struct tproc{
   char     p_state;
@@ -22,5 +23,8 @@ struct tproc{
   int      p_size;
   jmp_buf  buff;
 } tproc[NPROC];
+
+void f();
+void g();
 
 #endif

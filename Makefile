@@ -1,5 +1,5 @@
 CC      = gcc
-CFLAGS  = -Wall -Werror -I$(INC)
+CFLAGS  = -Wall -Werror -std=c99 -I$(INC) -g
 LDFLAGS = #
 
 INC = include
@@ -7,15 +7,19 @@ SRC = src
 OBJ = obj
 BIN = bin
 
-all: tproc
+all: main
 
-tproc: $(BIN)/tproc
-$(BIN)/tproc: $(OBJ)/tproc.o $(OBJ)/jmp.o
-		$(CC) -o $@ $< $(LDFLAGS)
+main: $(BIN)/main
+$(BIN)/main: $(OBJ)/jmp.o $(OBJ)/tproc.o  $(OBJ)/main.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+$(OBJ)/main.o: $(SRC)/main.c
+	$(CC) -o $@ -c $< $(CFLAGS)
+
 $(OBJ)/tproc.o: $(SRC)/tproc.c $(INC)/tproc.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-$(OBJ)/jmp.o:	$(SRC)/jmp.c $(INC)/jmp.h
+$(OBJ)/jmp.o: $(SRC)/jmp.c $(INC)/jmp.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
