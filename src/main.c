@@ -5,18 +5,22 @@
 #include "tproc.h"
 #include "jmp.h"
 
-
-
 int
 main ( int argc, char** argv )
 {
-  /* jmp_buf buff, bufg; */
   init_sched();
-  
+  if ( DEBUG )
+    printf("adresse de la pile du main: %p\n", top_stack);
   if ( mysetjmp(1) == 0)
-    f();
+    {
+      f();
+    }
   else
-    g();
+    {
+      g();
+    }
+
+
 
   return EXIT_SUCCESS;
 }

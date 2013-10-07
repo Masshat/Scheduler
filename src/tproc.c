@@ -7,7 +7,7 @@
 
 /* Variable globale permettant de calculer le haut de pile */
 char* top_stack;
-
+/* Variable globale contenant l'index du processus élu */
 int elu;
 
 void
