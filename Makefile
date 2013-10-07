@@ -1,5 +1,5 @@
 CC      = gcc
-CFLAGS  = -Wall -Werror -std=c99 -I$(INC) -g
+CFLAGS  = -Wall -Werror -I$(INC) -g -ansi
 LDFLAGS = #
 
 INC = include
