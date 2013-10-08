@@ -24,7 +24,11 @@ main ( int argc, char** argv )
   #else
 
   ptr_f f_ = &f;
+  /* ptr_f g_ = &g; */
   new_proc(f_, 0);
+  /* new_proc(g_, 1); */
+  election();
+  
   #endif
 
   return EXIT_SUCCESS;

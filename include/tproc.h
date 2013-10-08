@@ -4,7 +4,7 @@
 #include <setjmp.h>
 
 /* Nombre maximum de processus que notre table peut accepter */
-#define NPROC 42
+#define NPROC 2
 
 /* Défini les deux états possibles pour un processus */
 #define SNO 0
@@ -39,6 +39,7 @@ void g(void);
 void f(int arg);
 void g(int arg);
 void new_proc(ptr_f function, int arg);
+void election(void);
 #endif
 
 #endif

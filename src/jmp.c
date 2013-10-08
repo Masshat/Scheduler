@@ -3,7 +3,7 @@
 #include <string.h>
 #include "jmp.h"
 #include "tproc.h"
-
+#include <unistd.h>
 
 char* top_stack;
 
@@ -33,6 +33,10 @@ mysetjmp( int index )
       
       /* 5. On change l'état du processus */
       tproc[old].p_state = SNO;
+      
+      if ( DEBUG )
+	puts("DEBUG: fin de sauvegarde du contexte");
+
       return 0;
     }
   else 
@@ -44,6 +48,9 @@ mysetjmp( int index )
       memcpy(top_stack - tproc[elu].p_size, tproc[elu].p_stack, tproc[elu].p_size);
 
       tproc[elu].p_state = SRUNNING;
+
+      if ( DEBUG )
+	printf("DEBUG: le processus n°%d est a l'état RUNNING\n", elu);
       return 1;
     }
 }
@@ -54,10 +61,8 @@ mylongjmp( int index )
   /* On positionne l'index du nouveau processus élu et on restaure ses
      registres */
   elu = index;
+  sleep(1);
   longjmp(tproc[elu].buff, 1);
 
-  /* On va ensuite dans la fonction mysetjmp pour restaurer la pile du processus
-     nouvellement élu */
-  /* return mysetjmp(elu); */
   return 1;
 }

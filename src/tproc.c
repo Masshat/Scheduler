@@ -62,45 +62,47 @@ new_proc(ptr_f function, int arg)
   /* 1. On recherche une entrée libre dans la table. Ici, on va
      chercher dans tproc la premère entrée dont l'état du processus
      est SNO */
-  for ( i = 0; i < NPROC; i++) 
+  for ( i = 0; i < NPROC; i++)
     {
       if ( tproc[i].p_state == SNO )
 	{
 	  if ( DEBUG )
 	    printf("DEBUG: L'entrée %d de la table des processus est libre\n", i);
-	  break;
+
+	  if ( mysetjmp(i) != 0 )
+	    {
+	      function(arg);
+	      return;
+	    }
 	}
     }
-  if ( mysetjmp(i) == 0 )
-    {
-      if ( DEBUG )
-	printf("DEBUG: On sauvegarde le contexte du processus %d\n", i);
-      return;
-    }
-  else
-    {
-      printf("On remet en action le processus %d\n", i);
-      function(arg);
-      return;
-    }
-
-  /* /\* 2. On enregistre le processus à cette entrée *\/ */
-  /* if ( mysetjmp(i) == 0 ) */
-  /*   { */
-  /*     printf("On sauvegarde le contexte du processus à l'entrée n°%d\n", i); */
-  /*     return; */
-  /*   }  */
-  /* /\* 3. Le nouveau processus va exécuter function(arg) *\/ */
-  /* else */
-  /*   { */
-  /*     if ( DEBUG ) */
-  /* 	{ */
-  /* 	  printf("Le processus n°%d est déjà sauvegardé, il va donc", i); */
-  /* 	  printf("exécuter la fonction passée en paramètre\n"); */
-  /* 	} */
-  /*     function(arg); */
-  /*   } */
-  /* return; */
 }
+
+/* TOFINISH */
+void
+election(void)
+{
+  /* int i = elu; */
+  /* for ( ; i < NPROC; i++ ) */
+  /*   { */
+  /*     sleep(1); */
+  /*     if ( tproc[i+1].p_state == SNO ) */
+  /* 	{ */
+  /* 	  if ( DEBUG ) */
+  /* 	    printf("DEBUG: Le processus élu est le n°%d\n", i); */
+  /* 	  break; */
+  /* 	} */
+  /*     printf("elu = %d\n", elu); */
+  /*     if ( i == NPROC-1 ) */
+  /* 	{ */
+  /* 	  puts("on réinitialise elu"); */
+  /* 	  i = 0; */
+  /* 	  printf("elu = %d\n", elu); */
+  /* 	}  */
+  /*   } */
+  /* elu = i; */
+  /* mylongjmp(elu); */
+}
+
 
 #endif
