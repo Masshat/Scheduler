@@ -4,7 +4,7 @@
 #include <setjmp.h>
 
 /* Nombre maximum de processus que notre table peut accepter */
-#define NPROC 2
+#define NPROC 6
 
 /* Défini les deux états possibles pour un processus */
 #define SNO 0
@@ -12,10 +12,6 @@
 
 /* Cette macro permet de calculer le début de la pile de la fonction main */
 #define init_sched() ( { char var; top_stack = &var; } )
-
-#define DEBUG 1
-
-/* #define JMP */
 
 extern int elu;
 extern char* top_stack;
@@ -32,14 +28,9 @@ struct tproc{
   jmp_buf  buff;
 } tproc[NPROC];
 
-#ifdef JMP
-void f(void);
-void g(void);
-#else
 void f(int arg);
 void g(int arg);
 void new_proc(ptr_f function, int arg);
-void election(void);
-#endif
+int election(void);
 
 #endif

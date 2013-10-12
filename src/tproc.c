@@ -10,37 +10,6 @@ char* top_stack;
 /* Variable globale contenant l'index du processus élu */
 int elu;
 
-#ifdef JMP
-void
-f(void)
-{
-  int n = 0;
-  
-  while(1)
-    {
-      printf("Execute f: %d\n", n++);
-      sleep(1);
-      if ( mysetjmp(0) == 0 )
-	mylongjmp(1);
-    }
-}
-
-void
-g(void)
-{
-  int m = 1000;
-
-  while(1)
-    {
-      printf("Execute g: %d\n", m++);
-      sleep(1);
-      if ( mysetjmp(1) == 0 )
-	mylongjmp(0);
-    }
-}
-
-#else
-
 void
 f(int arg)
 {
@@ -64,45 +33,31 @@ new_proc(ptr_f function, int arg)
      est SNO */
   for ( i = 0; i < NPROC; i++)
     {
+      /* Si on trouve une entrée libre */
       if ( tproc[i].p_state == SNO )
 	{
 	  if ( DEBUG )
 	    printf("DEBUG: L'entrée %d de la table des processus est libre\n", i);
 
+	  /* On sauvegarde le contexte du processus à cet endroit */
 	  if ( mysetjmp(i) != 0 )
 	    {
+	      /* Si on le restaure, on exécute la fonction */
 	      function(arg);
-	      return;
+	      break;
 	    }
+	    /* Sinon, une fois le contexte sauvegardé, on sort de la boucle */
+	  else 
+	    break;
 	}
     }
+  return;
 }
 
-/* TOFINISH */
-void
+
+int
 election(void)
 {
-  /* int i = elu; */
-  /* for ( ; i < NPROC; i++ ) */
-  /*   { */
-  /*     sleep(1); */
-  /*     if ( tproc[i+1].p_state == SNO ) */
-  /* 	{ */
-  /* 	  if ( DEBUG ) */
-  /* 	    printf("DEBUG: Le processus élu est le n°%d\n", i); */
-  /* 	  break; */
-  /* 	} */
-  /*     printf("elu = %d\n", elu); */
-  /*     if ( i == NPROC-1 ) */
-  /* 	{ */
-  /* 	  puts("on réinitialise elu"); */
-  /* 	  i = 0; */
-  /* 	  printf("elu = %d\n", elu); */
-  /* 	}  */
-  /*   } */
-  /* elu = i; */
-  /* mylongjmp(elu); */
+  elu++;
+  return elu;
 }
-
-
-#endif
