@@ -31,6 +31,8 @@ struct tproc{
 void f(int arg);
 void g(int arg);
 void new_proc(ptr_f function, int arg);
+void sig_handler(int sig);
 int election(void);
+int commut(int n);
 
 #endif

@@ -61,3 +61,19 @@ election(void)
   elu++;
   return elu;
 }
+
+void
+sig_handler(int sig)
+{
+  printf("Signal reçu: %d\n", sig);
+}
+
+int
+commut(int n)
+{
+#ifdef DEBUG
+  puts("blabla");
+#endif
+
+  return EXIT_SUCCESS;
+}
