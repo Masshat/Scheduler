@@ -61,7 +61,6 @@ mylongjmp( int index )
   /* On positionne l'index du nouveau processus élu et on restaure ses
      registres */
   elu = index;
-  sleep(1);
   longjmp(tproc[elu].buff, 1);
 
   return 1;

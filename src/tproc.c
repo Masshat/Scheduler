@@ -58,6 +58,28 @@ new_proc(ptr_f function, int arg)
 int
 election(void)
 {
-  elu++;
-  return elu;
+  int i;
+  int flag;
+
+  flag = 0;
+  i = elu;
+
+  /* Tant que l'on a pas trouvé de processus à élire */
+  while( !flag )
+    {
+      if ( i == NPROC )
+	i = 0;
+
+      if ( tproc[i].p_state == SNO )
+	{
+	  flag = 1;
+	  elu = i;
+#ifdef DEBUG
+	  printf("DEBUG: processus élu: %d\n", elu);
+#endif
+	  return elu;
+	}
+      i++;
+    }
+  return -1;
 }
