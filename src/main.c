@@ -8,19 +8,20 @@
 int
 main ( int argc, char** argv )
 {
+
+  ptr_f f_;
+  ptr_f g_;
+  int res;
+
   init_sched();
-  if ( DEBUG )
-    printf("adresse de la pile du main: %p\n", top_stack);
-  if ( mysetjmp(1) == 0)
-    {
-      f();
-    }
-  else
-    {
-      g();
-    }
 
-
+  f_ = &f;
+  new_proc(f_, 0);
+  res = election();
+  tproc[res].p_state = SRUNNING;
+  g_ = &f;
+  new_proc(g_, 1);
+  election();
 
   return EXIT_SUCCESS;
 }
