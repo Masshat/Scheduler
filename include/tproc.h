@@ -4,11 +4,12 @@
 #include <setjmp.h>
 
 /* Nombre maximum de processus que notre table peut accepter */
-#define NPROC 6
+#define NPROC 2
 
 /* Défini les deux états possibles pour un processus */
 #define SNO 0
-#define SRUNNING 1
+#define SREADY 1
+#define SRUNNING 2
 
 /* Cette macro permet de calculer le début de la pile de la fonction main */
 #define init_sched() ( { char var; top_stack = &var; } )
@@ -28,11 +29,12 @@ struct tproc{
   jmp_buf  buff;
 } tproc[NPROC];
 
+void start_sched(void);
 void f(int arg);
 void g(int arg);
 void new_proc(ptr_f function, int arg);
-void sig_handler(int sig);
+void commut(int sig);
 int election(void);
-int commut(int n);
+
 
 #endif

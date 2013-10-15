@@ -9,7 +9,7 @@ char* top_stack;
 
 
 /* Le paramètre index correspond à l'index dans la table des processus de celui
-   que l'on veut sauvegarder ou restauter */
+   que l'on veut sauvegarder ou restaurer */
 int
 mysetjmp( int index )
 {
@@ -27,7 +27,6 @@ mysetjmp( int index )
       /* 3. Copie de la pile courante dans la structure */
       tproc[old].p_addr = (char*)&old;
       memcpy(tproc[old].p_stack, tproc[old].p_addr, tproc[old].p_size);
-
       /* 4. Sauvegarde du contexte dans le buffer du processus courant :
 	 effectué dans le if */
       

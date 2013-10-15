@@ -8,13 +8,15 @@
 int
 main ( int argc, char** argv )
 {
-
-  ptr_f f_;
-
+  
   init_sched();
 
-  f_ = &f;
-  new_proc(f_, 0);
-
+  /* On créé un processus et on le met dans la table */
+  new_proc(&f, 0);
+  new_proc(&g, 1);
+  printf("\n");
+  /* On débute l'ordonnancement */
+  start_sched();
+  
   return EXIT_SUCCESS;
 }
